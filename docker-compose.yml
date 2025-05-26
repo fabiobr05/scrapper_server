@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  scrapper:
+    build: .
+    container_name: scrapper_server
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
