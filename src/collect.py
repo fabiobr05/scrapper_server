@@ -4,37 +4,19 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import os
-
-import os
 import tempfile
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from selenium import webdriver
 
 def iniciar_navegador():
+    
     options = Options()
-    
-    # Caminho para o Chromium
-    options.binary_location = "/usr/bin/chromium"  # Caminho do Chromium no contêiner
-    options.add_argument('--headless')  # Modo headless (remover se você não quiser headless)
-    options.add_argument('--no-sandbox')  # Necessário para rodar no Docker
-    options.add_argument('--disable-gpu')  # Desativa a GPU (sem suporte headless)
-    options.add_argument('--disable-dev-shm-usage')  # Necessário para containers Docker
-    
-    # Cria um diretório temporário para dados de usuário
-    user_data_dir = tempfile.mkdtemp()
-    options.add_argument(f'--user-data-dir={user_data_dir}')
+    options.binary_location = "/usr/bin/chromium"
+    options.add_argument('--headless')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--disable-dev-shm-usage')
 
-    # Caminho para o chromedriver
-    chromedriver_path = "/usr/bin/chromedriver"  # Caminho absoluto para o chromedriver
-
-    # Usando a classe Service para passar o caminho do chromedriver
-    service = Service(executable_path=chromedriver_path)
-
-    # Inicializando o WebDriver com a classe Service
+    service = Service('/usr/bin/chromedriver')
     driver = webdriver.Chrome(service=service, options=options)
-
     return driver
 
 
@@ -46,6 +28,7 @@ def buscar_google(data):
     try:
         driver.get(url)
 
+        # Espera os títulos aparecerem
         WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, "LC20lb"))
         )
