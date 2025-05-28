@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from src.collect import buscar_google
+from src.collect_duckduck import buscar_duckduckgo
 
 app = Flask(__name__)
 
